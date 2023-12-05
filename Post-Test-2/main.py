@@ -1,5 +1,5 @@
-from data_student.student import input_student, view_student
-from data_class.kelas import input_class, view_class
+from data_student.student import input_student, view_student, view_score_student
+from data_class.kelas import input_class, view_class, view_score_class
 
 # list of all class with class name as keys and student name as value
 # inside class name will be another dictionary with student name as keys and score as value
@@ -28,7 +28,7 @@ def menu_add():
                 print(f'Class {name} added successfully.')
         elif choice == 2:
             class_name, student = input_student()
-            if student in list_all[class_name].keys():
+            if list_all.get(class_name) and student in list_all[class_name].keys():
                 print('Student already exists in this class, please input different student.')
             else:
                 if class_name in list_all.keys():
@@ -49,7 +49,7 @@ def menu_delete():
                 print('Class not exists, please input correct name!')
         elif choice == 2:
             class_name, student = input_student()
-            if student in list_all[class_name].keys():
+            if list_all.get(class_name) and student in list_all[class_name].keys():
                 list_all[class_name].pop(student)
                 print(f'Student {student} on class {class_name} deleted successfully.')
             else:
@@ -72,12 +72,19 @@ def view_score():
             view_score_student(list_all)
 
 def assign_score():
-    choice = select_student_or_class()
-    if choice:
-        if choice == 1:
-            view_class(list_all)
-        elif choice == 2:
-            view_student(list_all)
+    class_name, student = input_student()
+    if list_all.get(class_name) and student in list_all[class_name].keys():
+        print(f'Assign score to {student} from class {class_name}')
+        score = int(input('Enter score: '))
+        if score >= 0 and score <= 100:
+            old_score = list_all[class_name][student]
+            new_score = score
+            list_all[class_name][student] = score
+            print(f'Score updated from {old_score} to {new_score}')
+        else:
+            print('Score value must be between 0 and 100')
+    else:
+        print('Please input correct class name or student name.')
 
 while True:
     print('Menu:')
