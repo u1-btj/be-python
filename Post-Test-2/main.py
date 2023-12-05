@@ -1,17 +1,26 @@
 from data_student.student import input_student, view_student, view_score_student
 from data_class.kelas import input_class, view_class, view_score_class
 
+class Type:
+    def __init__(self, number, name):
+        self.number = number
+        self.name = name
+
 # list of all class with class name as keys and student name as value
 # inside class name will be another dictionary with student name as keys and score as value
 # data structure will be => {'A': {'John': 80, 'Alex': 90}, 'B: {'Jim': 75}}
 list_all = {}
 
+# implement class for constant value
+cls_obj = Type(1, 'class')
+std_obj = Type(2, 'student')
+
 def select_student_or_class():
     print('Data Type')
-    print('1. Class')
-    print('2. Student')
+    print(f'{cls_obj.number}. {cls_obj.name.capitalize()}')
+    print(f'{std_obj.number}. {std_obj.name.capitalize()}')
     choice = int(input("Select data: "))
-    if choice not in [1, 2]:
+    if choice not in [cls_obj.number, std_obj.number]:
         print('Please select the correct data type to input!')
         return
     return choice
